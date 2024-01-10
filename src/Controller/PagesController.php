@@ -17,8 +17,6 @@ class PagesController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $readonceMessage = new ReadonceMessage;
-
-        // dd((string) $readonceMessage->getUuid());
         
         $form = $this->createForm(ReadonceMessageType::class, $readonceMessage);
 
@@ -28,7 +26,9 @@ class PagesController extends AbstractController
             $em->persist($readonceMessage);
             $em->flush();
 
-            dd("done");
+            $this->addFlash(type: 'success', message: 'Message sent successfully');
+
+            return $this->redirectToRoute(route: 'app_create_message');
         }
 
         return $this->render('pages/create.html.twig', compact('form'));
