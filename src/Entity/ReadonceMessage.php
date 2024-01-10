@@ -33,6 +33,9 @@ class ReadonceMessage
     #[Assert\NotBlank()]
     private ?string $message = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deletedAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +73,18 @@ class ReadonceMessage
     public function setMessage(string $message): static
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }
