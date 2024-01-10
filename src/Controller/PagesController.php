@@ -16,17 +16,19 @@ class PagesController extends AbstractController
     #[Route('/', name: 'app_create_message', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $readonce = new ReadonceMessage;
+        $readonceMessage = new ReadonceMessage;
+
+        // dd((string) $readonceMessage->getUuid());
         
-        $form = $this->createForm(ReadonceMessageType::class, $readonce);
+        $form = $this->createForm(ReadonceMessageType::class, $readonceMessage);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($readonce);
+            $em->persist($readonceMessage);
             $em->flush();
 
-            dd($readonce);
+            dd($readonceMessage);
         }
 
         return $this->render('pages/create.html.twig', compact('form'));
