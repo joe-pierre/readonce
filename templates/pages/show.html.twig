@@ -3,10 +3,10 @@
 {% block body %}
 <h1>Read-once app</h1>
 
-<p>ID: {{ message.id }}</p>
-<p>UUID: {{ message.uuid }}</p>
-<p>Email: {{ message.email }}</p>
-<p>Message: {{ message.message }}</p>
-<p>Created At: {{ message.createdAt|date }}</p>
-<p>Updated At: {{ message.updatedAt|date }}</p>
+{% if message %}
+    <p>Message: {{ message.message }}</p>
+{% else %}
+    <p>It seems that the message has already been read!</p>
+{% endif %}
+
 {% endblock %}

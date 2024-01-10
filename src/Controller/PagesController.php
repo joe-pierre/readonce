@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ReadonceMessage;
 use App\Form\ReadonceMessageType;
+use App\Repository\ReadonceMessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,10 @@ use Symfony\Component\Routing\Requirement\Requirement;
 class PagesController extends AbstractController
 {
     #[Route('/', name: 'app_create_message', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, ReadonceMessageRepository $readonceMessageRepository): Response
     {
+        dd((string) $readonceMessageRepository->find(2)->getUuid());
+
         $readonceMessage = new ReadonceMessage;
         
         $form = $this->createForm(ReadonceMessageType::class, $readonceMessage);
@@ -42,8 +45,15 @@ class PagesController extends AbstractController
         name: 'app_show_message', 
         methods: ['GET']
     )]
-    public function show(Request $request, ReadonceMessage $message): Response
+    public function show(string $uuid, ReadonceMessageRepository $readonceMessageRepository, EntityManagerInterface $em): Response
     {
+        $message = $readonceMessageRepository->findOneByUuid($uuid);
+
+        if ($message) {
+            $em->remove($message);
+            $em->flush();
+        }
+
         return $this->render('pages/show.html.twig', compact('message'));
     }
 }
