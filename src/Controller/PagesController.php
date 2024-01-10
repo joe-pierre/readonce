@@ -28,7 +28,7 @@ class PagesController extends AbstractController
             $em->persist($readonceMessage);
             $em->flush();
 
-            dd($readonceMessage);
+            dd("done");
         }
 
         return $this->render('pages/create.html.twig', compact('form'));

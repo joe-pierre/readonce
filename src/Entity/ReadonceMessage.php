@@ -33,11 +33,6 @@ class ReadonceMessage
     #[Assert\NotBlank()]
     private ?string $message = null;
 
-    public function __construct()
-    {
-        $this->setUuid(Uuid::v7());
-    }
-
     public function getId(): ?int
     {
         return $this->id;
